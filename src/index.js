@@ -19,6 +19,7 @@ let totalPages = null;
 
 refs.formEl.addEventListener('submit', seachPhotoCard);
 
+//search on click submit
 function seachPhotoCard(event) {
   event.preventDefault();
   cleanMurkupBeforNewSearch();
@@ -44,12 +45,13 @@ function seachPhotoCard(event) {
         return;
       }
       Notiflix.Notify.info(`Hooray! We found ${data.totalHits} images.`);
-      appendPhotoMurkup(data);
+      appendPhotoMarkup(data);
     })
     .catch(onFetchError);
 }
 
-function appendPhotoMurkup(photoCard) {
+//add photo in markup
+function appendPhotoMarkup(photoCard) {
   removeClassHiddenForBtn();
 
   totalPages = Math.ceil(photoCard.totalHits / 40);
@@ -95,6 +97,7 @@ function onFetchError() {
   };
 }
 
+//render markup
 function createPhotoMarkup(photoCard) {
   return photoCard.hits
     .map(
@@ -109,8 +112,11 @@ function createPhotoMarkup(photoCard) {
       }) => {
         return `
       <div class="photo-card">
-      
-   <a href="${largeImageURL}" class="gallery__item"><div class="thumb"><img src="${webformatURL}" class="gallery__image" alt="${tags}" loading="lazy"/></div></a>
+          <a href="${largeImageURL}" class="gallery__item">
+        <div class="thumb">
+          <img src="${webformatURL}" class="gallery__image" alt="${tags}" loading="lazy"/>
+        </div>
+          </a>
    
   <div class="info">
     <p class="info-item">
@@ -136,6 +142,7 @@ function createPhotoMarkup(photoCard) {
     .join('');
 }
 
+//button load more
 refs.moreBtn.addEventListener('click', loadMore);
 
 function loadMore() {
