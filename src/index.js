@@ -100,7 +100,7 @@ function createPhotoMarkup(photoCard) {
         return `
       <div class="photo-card">
       <div class="thumb">
-   <a href="${largeImageURL}" class="gallery__item"><img src="${webformatURL}" class="gallery__image" width="290px" height="200px" alt="${tags}" loading="lazy"/></a>
+   <a href="${largeImageURL}" class="gallery__item"><img src="${webformatURL}" class="gallery__image" width="292px" height="200px" alt="${tags}" loading="lazy"/></a>
    </div>
   <div class="info">
     <p class="info-item">
