@@ -25,11 +25,12 @@ function loadMore() {
   photoAPI.fetchPhoto(searchQuery).then(appendPhotoMurkup).catch(onFetchError);
 }
 
-function seachPhotoCard() {
+function seachPhotoCard(event) {
   event.preventDefault();
   if (searchQuery != refs.inputEl.value) {
     refs.galleryEl.innerHTML = '';
   }
+
   searchQuery = refs.inputEl.value.trim();
   if (searchQuery === '') {
     refs.moreBtn.classList.add('is-hidden');
@@ -99,9 +100,9 @@ function createPhotoMarkup(photoCard) {
       }) => {
         return `
       <div class="photo-card">
-      <div class="thumb">
-   <a href="${largeImageURL}" class="gallery__item"><img src="${webformatURL}" class="gallery__image" width="290px" height="200px" alt="${tags}" loading="lazy"/></a>
-   </div>
+      
+   <a href="${largeImageURL}" class="gallery__item"><div class="thumb"><img src="${webformatURL}" class="gallery__image" alt="${tags}" loading="lazy"/></div></a>
+   
   <div class="info">
     <p class="info-item">
       <b>Likes</b>
