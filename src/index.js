@@ -18,33 +18,26 @@ let searchQuery = null;
 let totalPages = null;
 
 refs.formEl.addEventListener('submit', seachPhotoCard);
-refs.moreBtn.addEventListener('click', loadMore);
-
-function loadMore() {
-  photoAPI.incrementPage();
-  photoAPI.fetchPhoto(searchQuery).then(appendPhotoMurkup).catch(onFetchError);
-}
 
 function seachPhotoCard(event) {
   event.preventDefault();
-  if (searchQuery != refs.inputEl.value) {
-    refs.galleryEl.innerHTML = '';
-  }
+  cleanMurkupBeforNewSearch();
 
   searchQuery = refs.inputEl.value.trim();
+
   if (searchQuery === '') {
-    refs.moreBtn.classList.add('is-hidden');
-    Notiflix.Notify.warning(
-      'Sorry, there are no images matching your search query. Please try again.'
-    );
+    addClassHiddenForBtn();
+    Notiflix.Notify.warning('Empty string. Please, write what you need find');
     return;
   }
+
   photoAPI.resetPage();
+
   photoAPI
     .fetchPhoto(searchQuery)
     .then(data => {
       if (data.hits.length === 0) {
-        refs.moreBtn.classList.add('is-hidden');
+        addClassHiddenForBtn();
         Notiflix.Notify.warning(
           'Sorry, there are no images matching your search query. Please try again.'
         );
@@ -57,16 +50,35 @@ function seachPhotoCard(event) {
 }
 
 function appendPhotoMurkup(photoCard) {
-  refs.moreBtn.classList.remove('is-hidden');
+  removeClassHiddenForBtn();
+
   totalPages = Math.ceil(photoCard.totalHits / 40);
+
   if (totalPages === photoAPI.currentPage()) {
-    refs.moreBtn.classList.add('is-hidden');
+    addClassHiddenForBtn();
     Notiflix.Notify.warning(
       "We're sorry, but you've reached the end of search results."
     );
   }
   refs.galleryEl.insertAdjacentHTML('beforeend', createPhotoMarkup(photoCard));
+  addLightboxGallery();
+}
 
+function cleanMurkupBeforNewSearch() {
+  if (searchQuery != refs.inputEl.value) {
+    refs.galleryEl.innerHTML = '';
+  }
+}
+
+function addClassHiddenForBtn() {
+  refs.moreBtn.classList.add('is-hidden');
+}
+
+function removeClassHiddenForBtn() {
+  refs.moreBtn.classList.remove('is-hidden');
+}
+
+function addLightboxGallery() {
   var lightbox = new SimpleLightbox('.photo-card a', {
     captionsData: 'alt',
     captionDelay: 250,
@@ -77,11 +89,8 @@ function appendPhotoMurkup(photoCard) {
 
 function onFetchError() {
   error => {
-    if (data.hits.length === 0) {
-      Notiflix.Notify.warning(
-        'Sorry, there are no images matching your search query. Please try again.'
-      );
-    }
+    Notiflix.Notify.warning('Please, try again.');
+
     console.log(error);
   };
 }
@@ -125,4 +134,11 @@ function createPhotoMarkup(photoCard) {
       }
     )
     .join('');
+}
+
+refs.moreBtn.addEventListener('click', loadMore);
+
+function loadMore() {
+  photoAPI.incrementPage();
+  photoAPI.fetchPhoto(searchQuery).then(appendPhotoMurkup).catch(onFetchError);
 }
