@@ -147,5 +147,5 @@ refs.moreBtn.addEventListener('click', loadMore);
 
 function loadMore() {
   photoAPI.incrementPage();
-  photoAPI.fetchPhoto(searchQuery).then(appendPhotoMurkup).catch(onFetchError);
+  photoAPI.fetchPhoto(searchQuery).then(appendPhotoMarkup).catch(onFetchError);
 }
