@@ -33,12 +33,14 @@ function seachPhotoCard() {
   searchQuery = refs.inputEl.value.trim();
   if (searchQuery === '') {
     refs.moreBtn.classList.add('is-hidden');
+    Notiflix.Notify.warning(
+      'Sorry, there are no images matching your search query. Please try again.'
+    );
     return;
   }
   photoAPI.resetPage();
   photoAPI
     .fetchPhoto(searchQuery)
-    // .then(appendPhotoMurkup)
     .then(data => {
       if (data.hits.length === 0) {
         refs.moreBtn.classList.add('is-hidden');
