@@ -5,7 +5,7 @@ const API_KEY = '30129874-c78727ddf7e732cad9221ad6f';
 const imageType = 'photo';
 const orientation = 'horizontal';
 const safesearch = 'true';
-const perPage = '10';
+const perPage = '40';
 
 export default class API {
   constructor() {
