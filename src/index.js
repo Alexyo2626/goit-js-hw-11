@@ -13,6 +13,11 @@ const refs = {
   moreBtn: document.querySelector('.load-more'),
 };
 
+var lightbox = new SimpleLightbox('.photo-card a', {
+  captionsData: 'alt',
+  captionDelay: 250,
+});
+
 const photoAPI = new API();
 let searchQuery = null;
 let totalPages = null;
@@ -63,7 +68,7 @@ function appendPhotoMarkup(photoCard) {
     );
   }
   refs.galleryEl.insertAdjacentHTML('beforeend', createPhotoMarkup(photoCard));
-  addLightboxGallery();
+  lightbox.refresh();
 }
 
 function cleanMurkupBeforNewSearch() {
@@ -78,15 +83,6 @@ function addClassHiddenForBtn() {
 
 function removeClassHiddenForBtn() {
   refs.moreBtn.classList.remove('is-hidden');
-}
-
-function addLightboxGallery() {
-  var lightbox = new SimpleLightbox('.photo-card a', {
-    captionsData: 'alt',
-    captionDelay: 250,
-  });
-
-  lightbox.refresh();
 }
 
 function onFetchError() {
